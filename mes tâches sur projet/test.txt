@@ -1,0 +1,95 @@
+la création des routes super admin et admin et chef et client
+
+-doccumentation de sequelize orm 
+et exemple pour tester  l'insertion de les donneés et modification  des données
+
+
+et les relation entre les tables en diagramme de class
+
+
+
+
+const { Sequelize, DataTypes } = require('sequelize');
+
+const sequelize = new Sequelize('hospital-management', 'root', '', {
+  host: 'localhost',
+  dialect: 'mysql'
+});
+
+const User = sequelize.define('User', {
+  firstName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  lastName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+});
+
+
+User.sync();
+
+
+
+
+
+
+
+
+const createUser = async () => {
+  try {
+    // Create new user
+    const newUser = await User.create({
+      firstName: 'hasnae',
+      lastName: 'rguig'
+    });
+
+    console.log('User created:', newUser);
+  } catch (error) {
+    console.error('Error creating user:', error);
+  }
+};
+
+createUser();
+
+
+const updateUser = async (userId, newFirstName, newLastName) => {
+  try {
+    // Find the user
+    const user = await User.findOne({ where: { id: userId } });
+
+    if (user) {
+      // modifier users
+      user.firstName = newFirstName;
+      user.lastName = newLastName;
+
+      // Save the updated user
+      await user.save();
+
+      console.log('User updated:', user);
+    } else {
+      console.log('User not found.');
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+  }
+};
+
+// appel  function pour modifié  user
+updateUser(1, 'NewFirst', 'NewLast');
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
